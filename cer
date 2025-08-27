@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Careerupreneur - Kembangkan Jiwa Wirausaha Digitalmu</title>
+    
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Nunito Sans (similar to Avenir Next) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/lucide.min.js"></script>
+
+    <style>
+        /* Custom styles and theme configuration */
+        body {
+            font-family: 'Nunito Sans', sans-serif;
+            background-color: #FFFBDE; /* Warna latar belakang utama */
+        }
+        :root {
+            --primary: #129990;
+            --secondary: #FFA725;
+            --background: #FFFBDE;
+            --text-dark: #333;
+        }
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #0e7a73;
+        }
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background-color: #e69520;
+        }
+        .text-primary { color: var(--primary); }
+        .text-secondary { color: var(--secondary); }
+        .bg-primary { background-color: var(--primary); }
+        .bg-secondary { background-color: var(--secondary); }
+        .border-primary { border-color: var(--primary); }
+        .progress-bar-inner {
+            background: linear-gradient(90deg, var(--secondary) 0%, #ffc66e 100%);
+            transition: width 0.5s ease-in-out;
+        }
+        .page {
+            display: none; /* Hide all pages by default */
+        }
+        .page.active {
+            display: block; /* Show active page */
+        }
+        .likert-scale label {
+            cursor: pointer;
+            padding: 0.5rem 0.75rem;
+            border-radius: 9999px;
+            transition: all 0.2s ease;
+            border: 1px solid #ccc;
+        }
+        .likert-scale input[type="radio"]:checked + label {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        .pemisah {
+            border: 0;
+            height: 1px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(18, 153, 144, 0.5), rgba(0, 0, 0, 0));
+            margin: 2rem 0;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Container Utama Aplikasi -->
+    <div id="app-container" class="min-h-screen flex flex-col">
+
+        <!-- Header dan Navbar (ditampilkan setelah login) -->
+        <header id="app-header" class="bg-white shadow-md sticky top-0 z-50 hidden">
+            <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+                <a href="#" class="nav-link text-2xl font-bold text-primary" data-page="beranda">Careerupreneur</a>
+                <div class="hidden md:flex space-x-6 items-center">
+                    <a href="#" class="nav-link text-gray-600 hover:text-primary" data-page="beranda">Beranda</a>
+                    <a href="#" class="nav-link text-gray-600 hover:text-primary" data-page="kelas">Kelas Entrepreneur</a>
+                    <a href="#" class="nav-link text-gray-600 hover:text-primary" data-page="profil">Profil</a>
+                    <a href="#" class="nav-link text-gray-600 hover:text-primary" data-page="layanan">Layanan Informasi</a>
+                    <a href="#" class="nav-link text-gray-600 hover:text-primary" data-page="kontak">Kontak</a>
+                </div>
+                 <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-600 focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+            </nav>
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="md:hidden hidden bg-white px-6 pt-2 pb-4 space-y-2">
+                <a href="#" class="nav-link block text-gray-600 hover:text-primary" data-page="beranda">Beranda</a>
+                <a href="#" class="nav-link block text-gray-600 hover:text-primary" data-page="kelas">Kelas Entrepreneur</a>
+                <a href="#" class="nav-link block text-gray-600 hover:text-primary" data-page="profil">Profil</a>
+                <a href="#" class="nav-link block text-gray-600 hover:text-primary" data-page="layanan">Layanan Informasi</a>
+                <a href="#" class="nav-link block text-gray-600 hover:text-primary" data-page="kontak">Kontak</a>
+            </div>
+        </header>
+
+        <!-- Konten Utama (Halaman dinamis) -->
+        <main class="flex-grow">
+
+            <!-- Halaman Login -->
+            <section id="login-page" class="page active">
+                <div class="min-h-screen flex items-center justify-center bg-cover" style="background-image: url('https://www.toptal.com/designers/subtlepatterns/uploads/watercolor.png');">
+                    <div class="bg-white/80 backdrop-blur-sm p-8 md:p-12 rounded-2xl shadow-2xl max-w-md w-full text-center">
+                        <img src="https://img.freepik.com/free-vector/business-team-discussing-ideas-startup_74855-4380.jpg?w=996&t=st=1716912388~exp=1716912988~hmac=5098e4f509f5466d3a87315582f6e91024316ca8b688d0115e580e0c90c74140" alt="Illustration" class="w-48 mx-auto mb-4 rounded-full">
+                        <h1 class="text-3xl font-bold text-primary mb-2">Careerupreneur</h1>
+                        <p class="text-gray-600 mb-6">Masuk untuk memulai perjalanan wirausahamu!</p>
+                        <form id="login-form" class="space-y-4">
+                            <input type="text" id="nama" placeholder="Nama Lengkap" class="w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary" required>
+                            <input type="text" id="kelas" placeholder="Kelas (Contoh: XII RPL 1)" class="w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary" required>
+                            <input type="text" id="sekolah" placeholder="Asal Sekolah" class="w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary" required>
+                            <button type="submit" class="w-full btn-primary font-bold py-3 rounded-lg text-lg">Ayo Mulai</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Halaman Beranda -->
+            <section id="beranda-page" class="page">
+                 <div class="relative h-[60vh] md:h-[70vh] flex items-center justify-center text-center text-white px-4">
+                    <div class="absolute inset-0 bg-black opacity-40"></div>
+                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="absolute inset-0 w-full h-full object-cover" alt="Team working">
+                    <div class="relative z-10">
+                        <h1 id="welcome-message" class="text-4xl md:text-6xl font-extrabold mb-4 leading-tight">Selamat Datang di Careerupreneur!</h1>
+                        <p class="text-lg md:text-xl max-w-3xl mx-auto mb-2">Masa depanmu ada di tanganmu. Jadikan ide cemerlangmu sebagai langkah awal kesuksesan wirausaha digital.</p>
+                        <p class="text-lg md:text-xl max-w-3xl mx-auto mb-8">Jangan takut gagal, karena setiap tantangan adalah pelajaran berharga untuk menjadi pengusaha tangguh.</p>
+                        <button id="start-class-btn" class="btn-secondary font-bold py-3 px-8 rounded-full text-lg transform hover:scale-105 transition-transform">Masuk Kelas Entrepreneur</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Halaman Kelas Entrepreneur -->
+            <section id="kelas-page" class="page">
+                <div class="container mx-auto px-6 py-10">
+                    <h2 class="text-3xl font-bold text-center text-primary mb-4">Perjalanan Wirausaha Digitalmu</h2>
+                    <p class="text-center text-gray-600 mb-8 max-w-2xl mx-auto">Ikuti setiap pertemuan untuk membangun keterampilan dan keyakinan dirimu menjadi seorang entrepreneur digital yang hebat.</p>
+                    
+                    <!-- Progress Bar -->
+                    <div class="mb-10">
+                        <div class="relative pt-1">
+                            <div class="flex mb-2 items-center justify-between">
+                                <div>
+                                    <span id="progress-text" class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-white bg-primary">
+                                        Progress: 0%
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="overflow-hidden h-4 mb-4 text-xs flex rounded-full bg-gray-200">
+                                <div id="progress-bar-inner" style="width: 0%" class="progress-bar-inner shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tombol Pertemuan -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                        <button class="pertemuan-btn p-6 bg-white rounded-lg shadow-md text-center transform hover:-translate-y-1 transition-transform" data-pertemuan="1">
+                            <h3 class="font-bold text-lg text-primary">Pertemuan 1</h3>
+                            <p class="text-gray-700">Mengenal Lebih Dekat</p>
+                        </button>
+                        <button class="pertemuan-btn p-6 bg-gray-200 text-gray-500 rounded-lg shadow-sm text-center cursor-not-allowed" data-pertemuan="2" disabled>
+                            <h3 class="font-bold text-lg">Pertemuan 2</h3>
+                            <p>Entrepreneur Hebat</p>
+                        </button>
+                        <button class="pertemuan-btn p-6 bg-gray-200 text-gray-500 rounded-lg shadow-sm text-center cursor-not-allowed" data-pertemuan="3" disabled>
+                            <h3 class="font-bold text-lg">Pertemuan 3</h3>
+                            <p>Entrepreneur Cerdas</p>
+                        </button>
+                        <button class="pertemuan-btn p-6 bg-gray-200 text-gray-500 rounded-lg shadow-sm text-center cursor-not-allowed" data-pertemuan="4" disabled>
+                            <h3 class="font-bold text-lg">Pertemuan 4</h3>
+                            <p>Entrepreneur Sukses</p>
+                        </button>
+                        <button class="pertemuan-btn p-6 bg-gray-200 text-gray-500 rounded-lg shadow-sm text-center cursor-not-allowed" data-pertemuan="5" disabled>
+                            <h3 class="font-bold text-lg">Pertemuan 5</h3>
+                            <p>Entrepreneur Bisa</p>
+                        </button>
+                    </div>
+
+                    <!-- Konten Pertemuan (ditampilkan di sini) -->
+                    <div id="pertemuan-content" class="mt-10"></div>
+                </div>
+            </section>
+
+            <!-- Halaman Profil -->
+            <section id="profil-page" class="page">
+                <div class="container mx-auto px-6 py-10">
+                    <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-xl p-8">
+                        <div class="text-center">
+                            <img src="https://img.freepik.com/free-vector/user-verification-unauthorized-access-prevention-log-privacy-protection-with-password-personal-data-security-user-authentication-vector-isolated-concept-metaphor-illustration_335657-4598.jpg?w=740" class="w-40 h-40 rounded-full mx-auto mb-4 border-4 border-primary" alt="Avatar">
+                            <h2 class="text-3xl font-bold text-primary" id="profil-nama">Nama Siswa</h2>
+                            <p class="text-gray-500" id="profil-kelas">Kelas Siswa</p>
+                            <p class="text-gray-500" id="profil-sekolah">Asal Sekolah</p>
+                        </div>
+                        <div class="mt-8 text-center">
+                            <h3 class="font-bold text-xl mb-4 text-gray-700">Data Diri</h3>
+                            <p class="text-gray-600">Ini adalah informasi profil yang kamu masukkan saat login. Pastikan data ini sudah benar.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Halaman Layanan Informasi -->
+            <section id="layanan-page" class="page">
+                <div class="container mx-auto px-6 py-10">
+                    <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl p-8">
+                        <h2 class="text-3xl font-bold text-center text-primary mb-6">Tips Menjadi Entrepreneur Hebat</h2>
+                        <img src="https://img.freepik.com/free-vector/business-people-working-hard-together_74855-2396.jpg?w=1060" class="w-full h-auto rounded-lg mb-6" alt="Tips Illustration">
+                        <div class="space-y-4 text-gray-700 leading-relaxed">
+                            <p>Menjadi seorang entrepreneur hebat bukanlah perjalanan instan, melainkan sebuah proses yang membutuhkan dedikasi, ketekunan, dan kemauan untuk terus belajar. Kunci utamanya adalah memiliki visi yang jelas tentang apa yang ingin Anda capai. Visi ini akan menjadi kompas yang memandu setiap keputusan bisnis Anda. Selain itu, jangan pernah takut untuk mengambil risiko yang terukur. Dunia wirausaha penuh dengan ketidakpastian, dan kemampuan untuk menganalisis situasi, membuat keputusan berani, dan belajar dari setiap kegagalan adalah sifat yang membedakan pengusaha sukses dari yang lain. Bangunlah jaringan atau networking seluas mungkin, karena koneksi yang baik dapat membuka pintu peluang yang tidak terduga.</p>
+                            <p>Aspek penting lainnya adalah fokus pada pelanggan. Pahami kebutuhan, keinginan, dan masalah yang mereka hadapi, lalu tawarkan solusi yang benar-benar bernilai. Produk atau layanan yang hebat adalah yang mampu menyelesaikan masalah nyata bagi penggunanya. Terakhir, kelola keuangan dengan bijak. Pahami arus kas, bedakan antara kebutuhan dan keinginan, dan selalu siapkan dana darurat. Dengan fondasi yang kuat dalam visi, keberanian, fokus pada pelanggan, dan literasi finansial, Anda akan memiliki bekal yang cukup untuk menavigasi tantangan dan meraih kesuksesan sebagai seorang entrepreneur hebat di era digital ini.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Halaman Kontak -->
+            <section id="kontak-page" class="page">
+                <div class="container mx-auto px-6 py-10">
+                    <div class="max-w-lg mx-auto bg-white rounded-2xl shadow-xl p-8 text-center">
+                         <img src="https://img.freepik.com/free-vector/flat-design-illustration-customer-support_23-2148887720.jpg?w=740" class="w-48 mx-auto mb-4" alt="Contact Illustration">
+                        <h2 class="text-3xl font-bold text-primary mb-4">Hubungi Kami</h2>
+                        <p class="text-gray-600 mb-6">Jika Anda memiliki pertanyaan atau membutuhkan bantuan lebih lanjut, jangan ragu untuk menghubungi konselor kami.</p>
+                        <div class="inline-flex items-center bg-gray-100 p-4 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone text-primary mr-3"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                            <span class="text-xl font-bold text-gray-800">0895-8006-29897</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+        
+        <!-- Footer -->
+        <footer class="bg-primary text-white text-center p-4 mt-auto">
+            <p>&copy; 2025 Bimbingan dan Konseling - Universitas Negeri Malang</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // State Management
+            const state = {
+                user: {
+                    nama: '',
+                    kelas: '',
+                    sekolah: ''
+                },
+                progress: {
+                    completedMeetings: 0,
+                    totalMeetings: 5,
+                    unlockedUpTo: 1, // Pertemuan yang sudah terbuka
+                }
+            };
+
+            // DOM Elements
+            const pages = document.querySelectorAll('.page');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const loginForm = document.getElementById('login-form');
+            const appHeader = document.getElementById('app-header');
+            const startClassBtn = document.getElementById('start-class-btn');
+            const pertemuanBtns = document.querySelectorAll('.pertemuan-btn');
+            const pertemuanContent = document.getElementById('pertemuan-content');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            // --- FUNCTIONS ---
+
+            // Function to show a specific page
+            function showPage(pageId) {
+                pages.forEach(page => {
+                    page.classList.remove('active');
+                    if (page.id === pageId + '-page') {
+                        page.classList.add('active');
+                    }
+                });
+                window.scrollTo(0, 0);
+                mobileMenu.classList.add('hidden'); // Close mobile menu on navigation
+            }
+            
+            // Function to handle login
+            function handleLogin(e) {
+                e.preventDefault();
+                state.user.nama = document.getElementById('nama').value;
+                state.user.kelas = document.getElementById('kelas').value;
+                state.user.sekolah = document.getElementById('sekolah').value;
+
+                // Update UI
+                document.getElementById('welcome-message').textContent = `Selamat Datang, ${state.user.nama}!`;
+                document.getElementById('profil-nama').textContent = state.user.nama;
+                document.getElementById('profil-kelas').textContent = state.user.kelas;
+                document.getElementById('profil-sekolah').textContent = state.user.sekolah;
+                
+                appHeader.classList.remove('hidden');
+                showPage('beranda');
+            }
+
+            // Function to update progress bar
+            function updateProgressBar() {
+                const percentage = (state.progress.completedMeetings / state.progress.totalMeetings) * 100;
+                document.getElementById('progress-bar-inner').style.width = `${percentage}%`;
+                document.getElementById('progress-text').textContent = `Progress: ${Math.round(percentage)}%`;
+            }
+
+            // Function to unlock the next meeting
+            function unlockNextMeeting() {
+                if (state.progress.unlockedUpTo < state.progress.totalMeetings) {
+                    state.progress.unlockedUpTo++;
+                    const nextBtn = document.querySelector(`.pertemuan-btn[data-pertemuan="${state.progress.unlockedUpTo}"]`);
+                    if (nextBtn) {
+                        nextBtn.disabled = false;
+                        nextBtn.classList.remove('bg-gray-200', 'text-gray-500', 'cursor-not-allowed');
+                        nextBtn.classList.add('bg-white', 'shadow-md', 'transform', 'hover:-translate-y-1', 'transition-transform');
+                    }
+                }
+            }
+            
+            // Function to mark a meeting as complete
+            function completeMeeting(meetingNumber) {
+                // Prevent duplicate completion
+                if (meetingNumber > state.progress.completedMeetings) {
+                    state.progress.completedMeetings = meetingNumber;
+                    updateProgressBar();
+                    unlockNextMeeting();
+                }
+            }
+
+            // Function to generate pretest/posttest HTML
+            function getTestHTML(type) {
+                const statements = [
+                    "Saya termotivasi untuk memulai bisnis saya sendiri.",
+                    "Saya bersedia mengambil risiko finansial untuk peluang bisnis.",
+                    "Saya sering menemukan solusi kreatif untuk masalah.",
+                    "Saya merasa nyaman memimpin sebuah tim.",
+                    "Saya dapat menjelaskan ide-ide kompleks dengan jelas kepada orang lain.",
+                    "Saya aktif dalam membangun jaringan profesional.",
+                    "Saya memahami dasar-dasar pengelolaan keuangan bisnis.",
+                    "Saya mampu membuat rencana bisnis yang terstruktur."
+                ];
+                let html = `<h4 class="font-bold text-lg mb-4 text-primary">${type === 'pretest' ? 'Pretest' : 'Posttest'}: Ukur Kesiapan Wirausahamu</h4>
+                            <p class="mb-6 text-gray-600">Jawablah setiap pernyataan berikut sesuai dengan seberapa besar pernyataan tersebut menggambarkan dirimu saat ini.</p>
+                            <form id="${type}-form" class="space-y-6">`;
+                statements.forEach((stmt, index) => {
+                    html += `
+                        <div>
+                            <p class="font-semibold mb-2">${index + 1}. ${stmt}</p>
+                            <div class="flex flex-wrap gap-2 likert-scale">
+                                ${[1,2,3,4,5].map(val => `
+                                    <div class="flex items-center">
+                                        <input type="radio" id="${type}-q${index}-${val}" name="${type}-q${index}" value="${val}" class="hidden">
+                                        <label for="${type}-q${index}-${val}">${val}</label>
+                                    </div>
+                                `).join('')}
+                            </div>
+                             <div class="flex justify-between text-xs text-gray-500 mt-1 px-2">
+                                <span>Sangat Tidak Setuju</span>
+                                <span>Sangat Setuju</span>
+                            </div>
+                        </div>
+                    `;
+                });
+                html += `<button type="submit" class="btn-primary py-2 px-6 rounded-lg">Selesai</button></form>`;
+                return html;
+            }
+
+            // Function to render content for each meeting
+            function renderPertemuan(nomor) {
+                let content = '';
+                switch (nomor) {
+                    case 1:
+                        content = `
+                            <div class="bg-white p-8 rounded-lg shadow-lg">
+                                <h3 class="text-2xl font-bold text-primary mb-4">Pertemuan 1: Mengenal Lebih Dekat</h3>
+                                <p class="text-gray-600 mb-6">Tujuan: Siswa memahami konsep dan peluang kewirausahaan digital serta membangun keyakinan diri.</p>
+                                
+                                <div class="mb-6">${getTestHTML('pretest')}</div>
+                                
+                                <hr class="pemisah">
+                                
+                                <div class="mb-6">
+                                    <h4 class="font-bold text-lg mb-2 text-primary">Video Inspiratif</h4>
+                                    <p class="mb-4 text-gray-600">Saksikan kisah inspiratif dari seorang entrepreneur digital muda yang sukses membangun bisnisnya dari nol.</p>
+                                    <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden">
+                                        <iframe src="https://www.youtube.com/embed/bxH7ppipdpg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="w-full h-full"></iframe>
+                                    </div>
+                                </div>
+                                
+                                <hr class="pemisah">
+                                
+                                <div class="mb-6">
+                                    <h4 class="font-bold text-lg mb-2 text-primary">Modul Interaktif: Apa itu Kewirausahaan Digital?</h4>
+                                    <div class="space-y-3 text-gray-700 leading-relaxed">
+                                        <p>Kewirausahaan digital adalah tentang menciptakan, meluncurkan, dan menjalankan bisnis yang sebagian besar atau seluruhnya beroperasi secara online. Ini bukan hanya tentang menjual produk di internet, tetapi juga mencakup layanan digital, pembuatan konten, aplikasi, dan banyak lagi. Di era sekarang, di mana hampir semua orang terhubung dengan internet, peluangnya sangat luas. Anda bisa menjangkau pasar global langsung dari kamar Anda, dengan modal yang jauh lebih kecil dibandingkan bisnis konvensional.</p>
+                                        <p>Peluang terbesar bagi remaja seperti Anda adalah kemampuan untuk beradaptasi dengan teknologi baru secara cepat. Anda tumbuh bersama media sosial, game online, dan berbagai platform digital lainnya. Ini adalah keuntungan besar! Anda bisa melihat tren yang sedang berkembang, memahami apa yang disukai oleh pasar anak muda, dan menciptakan produk atau layanan yang relevan. Contohnya, menjadi seorang content creator, pengembang game indie, desainer grafis freelance, atau bahkan membangun sebuah startup teknologi kecil.</p>
+                                        <p>Namun, tentu ada tantangannya. Persaingan di dunia digital sangat ketat. Anda harus bisa menonjol di antara jutaan konten dan bisnis lainnya. Selain itu, tantangan seperti keamanan siber, perubahan algoritma platform, dan kebutuhan untuk terus belajar hal baru adalah bagian dari permainan. Kunci untuk menghadapinya adalah dengan memiliki pola pikir yang fleksibel, tidak mudah menyerah, dan selalu fokus pada memberikan nilai terbaik bagi audiens atau pelanggan Anda.</p>
+                                    </div>
+                                </div>
+                                
+                                <hr class="pemisah">
+                                
+                                <div class="mb-6">
+                                    <h4 class="font-bold text-lg mb-2 text-primary">Refleksi Personal</h4>
+                                    <p class="mb-4 text-gray-600">Tuliskan secara singkat apa minat terbesarmu dan apa ketakutan terbesarmu dalam memulai sebuah usaha digital.</p>
+                                    <textarea id="refleksi-1" class="w-full p-3 border rounded-lg h-32 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Contoh: Minat saya adalah membuat konten video, tapi saya takut tidak ada yang menonton..."></textarea>
+                                    <button id="selesai-p1" class="btn-primary mt-3 py-2 px-6 rounded-lg">Kirim Refleksi</button>
+                                </div>
+                                
+                                <div id="approval-notice" class="hidden mt-6 p-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 rounded-lg">
+                                    <p class="font-bold">Tugas Terkirim!</p>
+                                    <p>Menunggu approve dari konselor untuk ke pertemuan selanjutnya. <br><small>(Ini adalah simulasi, klik tombol di bawah untuk melanjutkan)</small></p>
+                                    <button id="sim-approve-btn" class="btn-secondary mt-3 py-1 px-4 rounded-lg text-sm">Simulasikan Approval</button>
+                                </div>
+                            </div>
+                        `;
+                        break;
+                    case 2:
+                        content = `
+                            <div class="bg-white p-8 rounded-lg shadow-lg">
+                                <h3 class="text-2xl font-bold text-primary mb-4">Pertemuan 2: Entrepreneur Hebat</h3>
+                                <p class="text-gray-600 mb-6">Tujuan: Siswa mengembangkan motivasi dan sikap positif menghadapi risiko berwirausaha serta kreativitas memecahkan masalah.</p>
+
+                                <div class="mb-6">
+                                    <h4 class="font-bold text-lg mb-2 text-primary">Simulasi Game: "Idea Challenge"</h4>
+                                    <p class="mb-4 text-gray-600">Tuliskan 3 ide wirausaha digital yang sedang tren di media sosial saat ini. Pikirkan tentang apa yang sedang viral atau banyak dibicarakan!</p>
+                                    <textarea id="idea-challenge" class="w-full p-3 border rounded-lg h-40 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="1. Jasa pembuatan filter AR untuk Instagram Story...\n2. ...\n3. ..."></textarea>
+                                </div>
+
+                                <hr class="pemisah">
+                                
+                                <div class="mb-6">
+                                    <h4 class="font-bold text-lg mb-2 text-primary">Studi Kasus: Kegagalan & Keberhasilan</h4>
+                                    <p class="mb-4 text-gray-700 leading-relaxed">Bayangkan sebuah startup bernama "InstaFood", sebuah aplikasi pengiriman makanan sehat khusus untuk pelajar. Awalnya, mereka sangat sukses karena idenya unik. Namun, mereka gagal karena beberapa hal: mereka terlalu cepat berekspansi ke kota lain tanpa persiapan, aplikasi mereka sering error, dan biaya promosi mereka lebih besar dari pendapatan. Mereka akhirnya kehabisan uang dan tutup. Di sisi lain, ada "SkillUp", sebuah platform kursus online singkat. Mereka berhasil karena fokus pada satu masalah: membantu siswa SMK belajar skill spesifik. Mereka memulai dari kecil, mendengarkan masukan pengguna, dan terus memperbaiki platform mereka. Mereka tidak langsung besar, tapi tumbuh stabil dan berkelanjutan. <br><br> <b>Diskusi:</b> Menurutmu, apa pelajaran terbesar dari kedua cerita ini?</p>
+                                </div>
+
+                                <hr class="pemisah">
+
+                                <div class="mb-6">
+                                    <h4 class="font-bold text-lg mb-2 text-primary">Cita-Cita Bisnis & Motivation Board</h4>
+                                    <p class="mb-2 text-gray-600">Tuliskan satu cita-cita bisnis impianmu.</p>
+                                    <input type="text" class="w-full p-3 border rounded-lg mb-4" placeholder="Contoh: Memiliki agensi digital marketing sendiri">
+                                    <p class="mb-4 text-gray-600">Seberapa besar keinginanmu untuk mewujudkan goals jangka pendek dan menengah? (1=Rendah, 10=Sangat Tinggi)</p>
+                                    <div class="space-y-4">
+                                        <div>
+                                            <label for="goal-pendek" class="font-semibold">Goals Jangka Pendek (3-6 bulan)</label>
+                                            <input type="range" id="goal-pendek" min="1" max="10" value="5" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                                            <div class="flex justify-between text-xs text-gray-500"><span>1</span><span>10</span></div>
+                                        </div>
+                                        <div>
+                                            <label for="goal-menengah" class="font-semibold">Goals Jangka Menengah (1-2 tahun)</label>
+                                            <input type="range" id="goal-menengah" min="1" max="10" value="5" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                                            <div class="flex justify-between text-xs text-gray-500"><span>1</span><span>10</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr class="pemisah">
+
+                                <div class="mb-6">
+                                    <h4 class="font-bold text-lg mb-2 text-primary">Quiz: Risiko Berwirausaha</h4>
+                                    <div id="quiz-container" class="space-y-4">
+                                        <!-- Quiz items will be injected by JS -->
+                                    </div>
+                                    <button id="check-quiz-btn" class="btn-primary mt-4 py-2 px-6 rounded-lg">Cek Jawaban</button>
+                                    <div id="quiz-result" class="mt-4"></div>
+                                </div>
+                            </div>
+                        `;
+                        break;
+                    case 3:
+                        content = `
+                            <div class="bg-white p-8 rounded-lg shadow-lg">
+                                <h3 class="text-2xl font-bold text-primary mb-4">Pertemuan 3: Entrepreneur Cerdas</h3>
+                                <p class="text-gray-600 mb-6">Tujuan: Siswa memahami prinsip kepemimpinan, komunikasi, dan kesadaran membangun jejaring.</p>
+
+                                <div class="mb-6">
+                                    <h4 class="font-bold text-lg mb-2 text-primary">Modul Bacaan</h4>
+                                    <div class="space-y-4 text-gray-700 leading-relaxed">
+                                        <div>
+                                            <h5 class="font-bold">Memimpin Tim dari Jarak Jauh</h5>
+                                            <p>Memimpin tim virtual atau jarak jauh membutuhkan pendekatan yang berbeda. Kuncinya adalah kepercayaan dan komunikasi yang transparan. Sebagai pemimpin, Anda harus bisa menetapkan tujuan yang jelas, memberikan feedback secara teratur, dan menggunakan alat kolaborasi digital (seperti Trello, Slack, atau Google Workspace) secara efektif. Penting juga untuk membangun budaya tim yang positif, misalnya dengan mengadakan sesi non-formal secara online untuk menjaga kedekatan antar anggota tim meskipun tidak bertemu langsung.</p>
+                                        </div>
+                                        <div>
+                                            <h5 class="font-bold">Komunikasi Efektif</h5>
+                                            <p>Dalam bisnis digital, komunikasi seringkali terjadi melalui teks (email, chat). Ini bisa menimbulkan salah paham. Komunikasi yang efektif berarti mampu menyampaikan pesan dengan jelas, ringkas, dan tepat sasaran. Pelajari cara menulis email profesional, memberikan instruksi yang tidak ambigu, dan yang terpenting, menjadi pendengar yang baik. Saat berkomunikasi dengan pelanggan, gunakan bahasa yang ramah dan empatik. Ingat, satu pelanggan yang puas bisa membawa sepuluh pelanggan baru.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <hr class="pemisah">
+
+                                <div class="mb-6">
+                                    <h4 class="font-bold text-lg mb-2 text-primary">Simulasi Role-Play: Manajemen Konflik</h4>
+                                    <p class="mb-4 text-gray-600">Bayangkan situasi ini: Tim Anda mengalami kerugian karena salah satu anggota membuat kesalahan dalam promosi. Ada ketegangan dalam tim.</p>
+                                    <div class="grid md:grid-cols-2 gap-6">
+                                        <div class="bg-gray-50 p-4 rounded-lg">
+                                            <h5 class="font-bold">Jika kamu Pemimpin:</h5>
+                                            <p class="text-sm text-gray-600">Bagaimana kamu akan menengahi situasi ini agar tim tetap solid dan menemukan solusi?</p>
+                                            <textarea class="w-full mt-2 p-2 border rounded-md h-24" placeholder="Langkah pertama yang akan saya ambil adalah..."></textarea>
+                                        </div>
+                                        <div class="bg-gray-50 p-4 rounded-lg">
+                                            <h5 class="font-bold">Jika kamu Anggota Tim (bukan yang berbuat salah):</h5>
+                                            <p class="text-sm text-gray-600">Apa yang akan kamu katakan kepada pemimpin dan anggota tim yang membuat kesalahan untuk menjaga suasana tetap positif?</p>
+                                            <textarea class="w-full mt-2 p-2 border rounded-md h-24" placeholder="Saya akan mencoba berbicara secara pribadi dengan..."></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr class="pemisah">
+
+                                <div class="mb-6">
+                                    <h4 class="font-bold text-lg mb-2 text-primary">Tutorial: Optimalisasi Profil Networking</h4>
+                                     <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden">
+                                        <iframe src="https://www.youtube.com/embed/VyB3Whq00C4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="w-full h-full"></iframe>
+                                    </div>
+                                </div>
+                                
+                                <hr class="pemisah">
+                                
+                                <div class="mb-6">
+                                    <h4 class="font-bold text-lg mb-2 text-primary">Pentingnya Networking</h4>
+                                    <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden">
+                                        <iframe src="https://www.youtube.com/embed/WS5sO8L3xfY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="w-full h-full"></iframe>
+                                    </div>
+                                </div>
+                                <button id="selesai-p3" class="btn-primary mt-6 py-2 px-6 rounded-lg">Selesai Pertemuan 3</button>
+                            </div>
+                        `;
+                        break;
+                    case 4:
+                        content = `
+                            <div class="bg-white p-8 rounded-lg shadow-lg">
+                                <h3 class="text-2xl font-bold text-primary mb-4">Pertemuan 4: Entrepreneur Sukses</h3>
+                                <p class="text-gray-600 mb-6">Tujuan: Siswa mengembangkan kemandirian dari memahami literasi keuangan, merancang model bisnis sederhana dan memahami perencanaan bisnis.</p>
+
+                                <div class="mb-6">
+                                    <h4 class="font-bold text-lg mb-2 text-primary">Simulasi Keuangan Sederhana</h4>
+                                    <p class="mb-4 text-gray-600">Bayangkan kamu menjual produk digital seharga Rp 50.000. Biaya iklan per produk terjual adalah Rp 10.000 dan biaya platform adalah Rp 5.000. Jika kamu berhasil menjual 20 produk bulan ini, berapa total pendapatan, total biaya, dan laba bersihmu? Coba hitung dan tulis di bawah!</p>
+                                    <textarea class="w-full p-3 border rounded-lg h-24" placeholder="Pendapatan: 20 x 50.000 = ..."></textarea>
+                                </div>
+                                
+                                <hr class="pemisah">
+                                
+                                <div class="mb-6">
+                                    <h4 class="font-bold text-lg mb-2 text-primary">Workshop: Digital Business Model Canvas (BMC)</h4>
+                                    <p class="mb-4 text-gray-600">Isi setiap kolom di bawah ini untuk merancang model bisnismu. Ini akan membantumu memetakan seluruh aspek penting dari idemu.</p>
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                        ${getBMCTemplate()}
+                                    </div>
+                                </div>
+                                
+                                <hr class="pemisah">
+                                
+                                <div class="mb-6">
+                                    <h4 class="font-bold text-lg mb-2 text-primary">Tugas Mandiri: Kembangkan Idemu!</h4>
+                                    <p class="mb-4 text-gray-600">Pilih satu ide terbaikmu dari "Idea Challenge" di pertemuan sebelumnya, dan kembangkan ide tersebut lebih detail menggunakan Business Model Canvas di atas.</p>
+                                </div>
+                                
+                                <hr class="pemisah">
+                                
+                                <div class="mb-6">
+                                    <h4 class="font-bold text-lg mb-2 text-primary">Forum Diskusi</h4>
+                                    <p class="mb-4 text-gray-600">Punya pertanyaan tentang BMC atau idemu? Ajukan di sini agar bisa didiskusikan dengan konselor.</p>
+                                    <textarea class="w-full p-3 border rounded-lg h-32" placeholder="Saya bingung menentukan Value Proposition untuk ide..."></textarea>
+                                    <button class="btn-primary mt-3 py-2 px-6 rounded-lg">Kirim Pertanyaan</button>
+                                </div>
+                                 <button id="selesai-p4" class="btn-secondary mt-6 py-2 px-6 rounded-lg">Selesai Pertemuan 4</button>
+                            </div>
+                        `;
+                        break;
+                    case 5:
+                        content = `
+                            <div class="bg-white p-8 rounded-lg shadow-lg">
+                                <h3 class="text-2xl font-bold text-primary mb-4">Pertemuan 5: Entrepreneur Bisa!</h3>
+                                <p class="text-gray-600 mb-6">Tujuan: Siswa meningkatkan kepercayaan diri dengan mengasah keterampilan wirausaha digital.</p>
+                                
+                                <div class="mb-6">${getTestHTML('posttest')}</div>
+                                
+                                <hr class="pemisah">
+                                
+                                <div class="mb-6">
+                                    <h4 class="font-bold text-lg mb-2 text-primary">Upload E-Portfolio Review</h4>
+                                    <p class="mb-4 text-gray-600">Kumpulkan semua hasil kerjamu (BMC, ide, refleksi) dalam satu file (PDF/DOCX) dan unggah di sini.</p>
+                                    <input type="file" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20"/>
+                                </div>
+                                
+                                <hr class="pemisah">
+                                
+                                <div class="mb-6">
+                                    <h4 class="font-bold text-lg mb-2 text-primary">Rencana Aksi 30 Hari</h4>
+                                    <p class="mb-4 text-gray-600">Tuliskan langkah-langkah konkret yang akan kamu lakukan dalam 30 hari ke depan untuk mendekati impian wirausahamu.</p>
+                                    <textarea class="w-full p-3 border rounded-lg h-32" placeholder="Minggu 1: Riset kompetitor dan validasi ide...\nMinggu 2: ..."></textarea>
+                                </div>
+                                
+                                <hr class="pemisah">
+                                
+                                <div class="mb-6">
+                                    <h4 class="font-bold text-lg mb-2 text-primary">Refleksi Akhir</h4>
+                                    <p class="mb-4 text-gray-600">Bagaimana perasaan dan keyakinan dirimu sekarang setelah mengikuti seluruh perjalanan ini? Apa perubahan terbesar yang kamu rasakan?</p>
+                                    <textarea class="w-full p-3 border rounded-lg h-32" placeholder="Setelah mengikuti program ini, saya merasa lebih..."></textarea>
+                                </div>
+                                
+                                <hr class="pemisah">
+                                
+                                <div class="mb-6">
+                                    <h4 class="font-bold text-lg mb-2 text-primary">Survei Kepuasan</h4>
+                                    <p class="mb-4 text-gray-600">Seberapa bermanfaat aplikasi Careerupreneur ini bagimu?</p>
+                                    <div class="flex flex-wrap gap-2 likert-scale">
+                                        ${[1,2,3,4,5].map(val => `
+                                            <div class="flex items-center">
+                                                <input type="radio" id="survey-${val}" name="survey" value="${val}" class="hidden">
+                                                <label for="survey-${val}">${val}</label>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                    <div class="flex justify-between text-xs text-gray-500 mt-1 px-2">
+                                        <span>Tidak Bermanfaat</span>
+                                        <span>Sangat Bermanfaat</span>
+                                    </div>
+                                </div>
+                                <button id="selesai-p5" class="btn-secondary mt-6 py-2 px-6 rounded-lg text-lg">Selesaikan Program!</button>
+                            </div>
+                        `;
+                        break;
+                }
+                pertemuanContent.innerHTML = content;
+                attachDynamicEventListeners(nomor);
+            }
+            
+            // Function to get BMC template
+            function getBMCTemplate() {
+                const bmcItems = [
+                    { title: "Customer Segments", desc: "Siapa target pelangganmu?" },
+                    { title: "Value Proposition", desc: "Apa nilai unik yang kamu tawarkan?" },
+                    { title: "Channels", desc: "Bagaimana kamu menjangkau pelanggan?" },
+                    { title: "Customer Relationship", desc: "Bagaimana kamu berinteraksi dengan pelanggan?" },
+                    { title: "Revenue Streams", desc: "Bagaimana bisnismu menghasilkan uang?" },
+                    { title: "Key Resources", desc: "Aset apa yang paling penting?" },
+                    { title: "Key Activities", desc: "Aktivitas kunci apa yang kamu lakukan?" },
+                    { title: "Key Partnerships", desc: "Siapa mitra kerjamu?" },
+                    { title: "Cost Structure", desc: "Apa saja biaya terbesar dalam bisnismu?" }
+                ];
+                return bmcItems.map(item => `
+                    <div class="bg-gray-50 p-3 rounded-lg">
+                        <h5 class="font-bold text-sm text-primary">${item.title}</h5>
+                        <p class="text-xs text-gray-500 mb-2">${item.desc}</p>
+                        <textarea class="w-full text-sm p-2 border rounded-md h-24"></textarea>
+                    </div>
+                `).join('');
+            }
+            
+            // Function to generate and manage the quiz
+            function setupQuiz() {
+                const quizContainer = document.getElementById('quiz-container');
+                if (!quizContainer) return;
+
+                const questions = [
+                    {
+                        q: "Manakah yang BUKAN merupakan risiko dalam berwirausaha digital?",
+                        options: ["Persaingan ketat", "Perubahan algoritma media sosial", "Modal awal yang selalu besar", "Keamanan siber"],
+                        answer: "Modal awal yang selalu besar"
+                    },
+                    {
+                        q: "Sikap terbaik saat menghadapi kegagalan produk pertama adalah...",
+                        options: ["Menyerah dan mencari ide lain", "Menganalisis penyebab, belajar, dan mencoba lagi (pivot)", "Menyalahkan pasar", "Mengabaikan feedback negatif"],
+                        answer: "Menganalisis penyebab, belajar, dan mencoba lagi (pivot)"
+                    },
+                    {
+                        q: "Apa itu 'risiko yang terukur' (calculated risk)?",
+                        options: ["Mengambil risiko tanpa berpikir", "Risiko yang sudah dianalisis potensi keuntungan dan kerugiannya", "Menghindari semua jenis risiko", "Hanya mengambil risiko jika pasti untung"],
+                        answer: "Risiko yang sudah dianalisis potensi keuntungan dan kerugiannya"
+                    }
+                ];
+
+                let quizHTML = '';
+                questions.forEach((item, index) => {
+                    quizHTML += `<div class="quiz-item border p-4 rounded-lg">
+                        <p class="font-semibold mb-2">${index + 1}. ${item.q}</p>
+                        <div class="space-y-2">`;
+                    item.options.forEach(opt => {
+                        quizHTML += `<div>
+                            <input type="radio" id="q${index}-${opt.replace(/\s/g, '')}" name="q${index}" value="${opt}" class="mr-2">
+                            <label for="q${index}-${opt.replace(/\s/g, '')}">${opt}</label>
+                        </div>`;
+                    });
+                    quizHTML += `</div></div>`;
+                });
+                quizContainer.innerHTML = quizHTML;
+
+                document.getElementById('check-quiz-btn').addEventListener('click', () => {
+                    let score = 0;
+                    questions.forEach((item, index) => {
+                        const selected = document.querySelector(`input[name="q${index}"]:checked`);
+                        const quizItem = selected.closest('.quiz-item');
+                        if (selected) {
+                            if (selected.value === item.answer) {
+                                score++;
+                                quizItem.style.backgroundColor = '#d1fae5'; // green
+                            } else {
+                                quizItem.style.backgroundColor = '#fee2e2'; // red
+                            }
+                        }
+                    });
+                    const resultEl = document.getElementById('quiz-result');
+                    resultEl.innerHTML = `<p class="font-bold">Skor Anda: ${score} dari ${questions.length}.</p>`;
+                    if (score >= 2) { // Threshold to complete
+                        completeMeeting(2);
+                        resultEl.innerHTML += `<p class="text-green-600">Kerja bagus! Kamu sudah bisa lanjut ke pertemuan berikutnya.</p>`;
+                    } else {
+                         resultEl.innerHTML += `<p class="text-red-600">Coba pelajari lagi dan perbaiki jawabanmu ya!</p>`;
+                    }
+                });
+            }
+
+            // Function to attach event listeners for dynamically created content
+            function attachDynamicEventListeners(nomor) {
+                if (nomor === 1) {
+                    document.getElementById('pretest-form').addEventListener('submit', e => e.preventDefault());
+                    document.getElementById('selesai-p1').addEventListener('click', () => {
+                        document.getElementById('approval-notice').classList.remove('hidden');
+                    });
+                    document.getElementById('sim-approve-btn').addEventListener('click', () => {
+                        completeMeeting(1);
+                        alert("Selamat! Pertemuan 1 selesai. Kamu bisa melanjutkan ke Pertemuan 2.");
+                        pertemuanContent.innerHTML = '';
+                    });
+                }
+                if (nomor === 2) {
+                    setupQuiz();
+                }
+                if (nomor === 3) {
+                    document.getElementById('selesai-p3').addEventListener('click', () => {
+                        completeMeeting(3);
+                        alert("Pertemuan 3 selesai. Lanjutkan semangatmu!");
+                        pertemuanContent.innerHTML = '';
+                    });
+                }
+                if (nomor === 4) {
+                    document.getElementById('selesai-p4').addEventListener('click', () => {
+                        completeMeeting(4);
+                        alert("Hebat! BMC sudah terisi. Tinggal selangkah lagi!");
+                        pertemuanContent.innerHTML = '';
+                    });
+                }
+                if (nomor === 5) {
+                    document.getElementById('posttest-form').addEventListener('submit', e => e.preventDefault());
+                    document.getElementById('selesai-p5').addEventListener('click', () => {
+                        completeMeeting(5);
+                        alert("SELAMAT! Kamu telah menyelesaikan seluruh program Careerupreneur. Teruslah berkarya dan wujudkan impian wirausahamu!");
+                        showPage('beranda');
+                        pertemuanContent.innerHTML = '';
+                    });
+                }
+            }
+            
+            // --- EVENT LISTENERS ---
+
+            // Navigation
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const pageId = e.target.closest('.nav-link').dataset.page;
+                    showPage(pageId);
+                });
+            });
+
+            // Login form submission
+            loginForm.addEventListener('submit', handleLogin);
+            
+            // Start class button
+            startClassBtn.addEventListener('click', () => showPage('kelas'));
+
+            // Pertemuan buttons
+            pertemuanBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    if (e.currentTarget.disabled) return;
+                    const nomorPertemuan = parseInt(e.currentTarget.dataset.pertemuan);
+                    renderPertemuan(nomorPertemuan);
+                });
+            });
+
+            // Mobile menu toggle
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Initial Setup
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>
